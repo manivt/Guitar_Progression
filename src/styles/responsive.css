@@ -1,0 +1,115 @@
+@media (max-width: 640px) {
+  .container {
+    padding: 0 var(--space-3);
+  }
+
+  .site-header {
+    padding: var(--space-3) 0;
+  }
+
+  .site-header .container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .hero {
+    padding: var(--space-5) 0 var(--space-4);
+  }
+
+  .performance-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-content {
+    padding: var(--space-3);
+  }
+
+  .modal {
+    border-radius: 0;
+    max-height: 100vh;
+    height: 100%;
+  }
+
+  .modal-video {
+    aspect-ratio: var(--thumbnail-aspect);
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1023px) {
+  .performance-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .performance-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .admin-container {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row.two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .play-indicator {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .form-input,
+  .form-textarea,
+  .form-select {
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .thumbnail,
+  .btn,
+  .form-input,
+  .form-textarea,
+  .form-select,
+  .modal-overlay,
+  .modal,
+  .toast {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@media (max-width: 375px) {
+  .site-title {
+    font-size: 1.375rem;
+  }
+
+  .btn-lg {
+    width: 100%;
+  }
+
+  .admin-form-actions {
+    flex-direction: column;
+  }
+
+  .admin-form-actions .btn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "guitar-archive",
+  "main": "./worker/index.ts",
+  "compatibility_date": "2026-09-09",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "guitar-archive",
+      "database_id": "REPLACE_WITH_CLOUDFLARE_DATABASE_ID"
+    }
+  ],
+  "vars": {
+    "CHILD_DISPLAY_NAME": "Musician",
+    "CHILD_BIRTH_DATE": "2015-01-01"
+  }
+}
