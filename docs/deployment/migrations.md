@@ -52,4 +52,3 @@ When adding new fields or indexes:
 npx wrangler d1 migrations create guitar-archive add_new_field
 ```
 This generates a timestamped SQL file in `migrations/`. Always commit migration files to version control.
-

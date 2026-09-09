@@ -2,7 +2,7 @@
 
 ## Overview
 
-The repository includes 71 unit tests distributed across three test files under `tests/`. All tests run using Vitest.
+The repository includes 73 unit tests distributed across three test files under `tests/`. All tests run using Vitest.
 
 ## Test Suites
 
@@ -26,7 +26,7 @@ Tests `extractYouTubeVideoId()`, `isValidYouTubeVideoId()`, `getThumbnailUrl()`,
 - Rejection of invalid links, empty strings, malformed IDs (< 11 or > 11 chars), and foreign domains.
 - Thumbnail quality selectors (`maxres`, `hq`, `mq`, `default`).
 
-### 3. Server-Side Validation (`tests/validation.test.ts` — 29 Tests)
+### 3. Server-Side Validation (`tests/validation.test.ts` — 31 Tests)
 Tests `validatePerformanceInput()` and `validatePerformanceUpdateInput()`:
 - Valid payload parsing and return types.
 - Required field enforcement (`performanceDate`, `song`, `youtubeUrl`).
@@ -35,4 +35,4 @@ Tests `validatePerformanceInput()` and `validatePerformanceUpdateInput()`:
 - Whitelisted enum validation (`performanceType`).
 - Automatic whitespace trimming on string inputs.
 - Partial-update semantics (single-field and empty updates accepted, absent optional fields left unchanged, provided fields still validated).
-
+- Rejection of non-string values for optional fields so malformed updates cannot silently clear stored data.

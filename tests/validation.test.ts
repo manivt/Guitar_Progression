@@ -220,6 +220,29 @@ describe('Partial update validation', () => {
     expect(result.errors.some(e => e.field === 'song')).toBe(true);
   });
 
+  it('rejects non-string values for optional fields instead of clearing them', () => {
+    const invalidUpdates = [
+      { field: 'artist', input: { artist: 123 } },
+      { field: 'instrument', input: { instrument: false } },
+      { field: 'performanceType', input: { performanceType: [] } },
+      { field: 'location', input: { location: {} } },
+      { field: 'notes', input: { notes: 42 } }
+    ];
+
+    for (const { field, input } of invalidUpdates) {
+      const result = validatePerformanceUpdateInput(input);
+      expect(result.valid).toBe(false);
+      expect(result.data).toBeUndefined();
+      expect(result.errors.some(error => error.field === field)).toBe(true);
+    }
+  });
+
+  it('normalizes explicit null and blank optional fields to null', () => {
+    const result = validatePerformanceUpdateInput({ artist: null, notes: '   ' });
+    expect(result.valid).toBe(true);
+    expect(result.data).toEqual({ artist: null, notes: null });
+  });
+
   it('rejects an invalid date in a partial update', () => {
     const result = validatePerformanceUpdateInput({ performanceDate: '2026-02-30' });
     expect(result.valid).toBe(false);

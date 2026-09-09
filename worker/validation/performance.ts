@@ -46,15 +46,19 @@ function requiredString(value: unknown): string | null {
   return trimmed === '' ? null : trimmed;
 }
 
-function optionalString(value: unknown): string | null {
+type OptionalStringResult =
+  | { valid: true; value: string | null }
+  | { valid: false };
+
+function optionalString(value: unknown): OptionalStringResult {
   if (value === undefined || value === null) {
-    return null;
+    return { valid: true, value: null };
   }
   if (typeof value !== 'string') {
-    return null;
+    return { valid: false };
   }
   const trimmed = value.trim();
-  return trimmed === '' ? null : trimmed;
+  return { valid: true, value: trimmed === '' ? null : trimmed };
 }
 
 function validateCommonFields(
@@ -93,11 +97,13 @@ function validateCommonFields(
   if (partial && obj.artist === undefined) {
     // Field omitted from a partial update; leave unchanged.
   } else {
-    const artist = optionalString(obj.artist);
-    if (artist !== null && artist.length > 200) {
+    const result = optionalString(obj.artist);
+    if (!result.valid) {
+      errors.push({ field: 'artist', message: 'Artist must be a string or null.' });
+    } else if (result.value !== null && result.value.length > 200) {
       errors.push({ field: 'artist', message: 'Artist must be 200 characters or less.' });
     } else {
-      data.artist = artist;
+      data.artist = result.value;
     }
   }
 
@@ -120,44 +126,52 @@ function validateCommonFields(
   if (partial && obj.instrument === undefined) {
     // Field omitted from a partial update; leave unchanged.
   } else {
-    const instrument = optionalString(obj.instrument);
-    if (instrument !== null && instrument.length > 100) {
+    const result = optionalString(obj.instrument);
+    if (!result.valid) {
+      errors.push({ field: 'instrument', message: 'Instrument must be a string or null.' });
+    } else if (result.value !== null && result.value.length > 100) {
       errors.push({ field: 'instrument', message: 'Instrument must be 100 characters or less.' });
     } else {
-      data.instrument = instrument;
+      data.instrument = result.value;
     }
   }
 
   if (partial && obj.performanceType === undefined) {
     // Field omitted from a partial update; leave unchanged.
   } else {
-    const performanceType = optionalString(obj.performanceType);
-    if (performanceType !== null && !PERFORMANCE_TYPES.includes(performanceType as PerformanceType)) {
+    const result = optionalString(obj.performanceType);
+    if (!result.valid) {
+      errors.push({ field: 'performanceType', message: 'Performance type must be a string or null.' });
+    } else if (result.value !== null && !PERFORMANCE_TYPES.includes(result.value as PerformanceType)) {
       errors.push({ field: 'performanceType', message: 'Invalid performance type.' });
     } else {
-      data.performanceType = performanceType;
+      data.performanceType = result.value;
     }
   }
 
   if (partial && obj.location === undefined) {
     // Field omitted from a partial update; leave unchanged.
   } else {
-    const location = optionalString(obj.location);
-    if (location !== null && location.length > 200) {
+    const result = optionalString(obj.location);
+    if (!result.valid) {
+      errors.push({ field: 'location', message: 'Location must be a string or null.' });
+    } else if (result.value !== null && result.value.length > 200) {
       errors.push({ field: 'location', message: 'Location must be 200 characters or less.' });
     } else {
-      data.location = location;
+      data.location = result.value;
     }
   }
 
   if (partial && obj.notes === undefined) {
     // Field omitted from a partial update; leave unchanged.
   } else {
-    const notes = optionalString(obj.notes);
-    if (notes !== null && notes.length > 5000) {
+    const result = optionalString(obj.notes);
+    if (!result.valid) {
+      errors.push({ field: 'notes', message: 'Notes must be a string or null.' });
+    } else if (result.value !== null && result.value.length > 5000) {
       errors.push({ field: 'notes', message: 'Notes must be 5000 characters or less.' });
     } else {
-      data.notes = notes;
+      data.notes = result.value;
     }
   }
 
