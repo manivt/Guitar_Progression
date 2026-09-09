@@ -8,28 +8,28 @@ Database migrations manage schema versioning for Cloudflare D1. Migrations resid
 
 ```
 migrations/
-└── 0001_initial_schema.sql
+└── 0001_initial.sql
 ```
 
-### Initial Schema (`0001_initial_schema.sql`)
+### Initial Schema (`0001_initial.sql`)
 Creates the `performances` table and primary reverse-chronological index:
 
 ```sql
-CREATE TABLE IF NOT EXISTS performances (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  performance_date TEXT NOT NULL,
-  song TEXT NOT NULL,
-  artist TEXT,
-  youtube_video_id TEXT NOT NULL,
-  instrument TEXT,
-  performance_type TEXT,
-  location TEXT,
-  notes TEXT,
-  created_at TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+CREATE TABLE performances (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    performance_date TEXT NOT NULL,
+    song TEXT NOT NULL,
+    artist TEXT,
+    youtube_video_id TEXT NOT NULL,
+    instrument TEXT,
+    performance_type TEXT,
+    location TEXT,
+    notes TEXT,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE INDEX IF NOT EXISTS idx_performances_date ON performances(performance_date DESC);
+CREATE INDEX idx_performances_date ON performances(performance_date DESC);
 ```
 
 ## Running Migrations

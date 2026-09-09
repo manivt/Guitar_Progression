@@ -44,7 +44,7 @@ export function formatAge(age: Age): string {
   return parts.join(', ');
 }
 
-function parseDateOnly(dateString: string): Date | null {
+export function parseDateOnly(dateString: string): Date | null {
   const match = dateString.match(/^(\d{4})-(\d{2})-(\d{2})$/);
   if (!match) {
     return null;

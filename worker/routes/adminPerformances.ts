@@ -1,6 +1,6 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import { createPerformance, updatePerformance, deletePerformance } from '../db/performances.js';
-import { validatePerformanceInput } from '../validation/performance.js';
+import { validatePerformanceInput, validatePerformanceUpdateInput } from '../validation/performance.js';
 
 export async function handleCreatePerformance(
   request: Request,
@@ -65,7 +65,7 @@ export async function handleUpdatePerformance(
       });
     }
 
-    const validation = validatePerformanceInput(body);
+    const validation = validatePerformanceUpdateInput(body);
 
     if (!validation.valid || !validation.data) {
       return new Response(JSON.stringify({ error: validation.errors[0]?.message || 'Invalid input' }), {
