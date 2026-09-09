@@ -1,9 +1,20 @@
 import { useState, useEffect, useCallback } from 'react';
-import { PERFORMANCE_TYPES } from '../../types/performance';
-import { extractYouTubeVideoId, isValidYouTubeVideoId, getThumbnailUrls } from '../../lib/youtube';
-import { createPerformance, updatePerformance } from '../../lib/api';
-import { Performance, PerformanceInput } from '../../types/performance';
+import { PERFORMANCE_TYPES } from '@shared/performance';
+import { extractYouTubeVideoId, isValidYouTubeVideoId, getThumbnailUrls } from '@lib/youtube';
+import { createPerformance, updatePerformance } from '@lib/api';
+import type { Performance, PerformanceInput } from '@shared/performance';
 import { useToast } from './Toast';
+
+interface PerformanceFormData {
+  performanceDate: string;
+  song: string;
+  artist: string;
+  youtubeUrl: string;
+  instrument: string;
+  performanceType: string;
+  location: string;
+  notes: string;
+}
 
 interface PerformanceFormProps {
   initialData?: Performance;
@@ -19,7 +30,7 @@ export function PerformanceForm({ initialData, onSuccess, onCancel }: Performanc
   const [youtubeError, setYoutubeError] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const [formData, setFormData] = useState<PerformanceInput & { youtubeUrl: string }>({
+  const [formData, setFormData] = useState<PerformanceFormData>({
     performanceDate: '',
     song: '',
     artist: '',
@@ -35,17 +46,17 @@ export function PerformanceForm({ initialData, onSuccess, onCancel }: Performanc
       setFormData({
         performanceDate: initialData.performanceDate,
         song: initialData.song,
-        artist: initialData.artist || '',
+        artist: initialData.artist ?? '',
         youtubeUrl: `https://www.youtube.com/watch?v=${initialData.youtubeVideoId}`,
-        instrument: initialData.instrument || '',
-        performanceType: initialData.performanceType || '',
-        location: initialData.location || '',
-        notes: initialData.notes || ''
+        instrument: initialData.instrument ?? '',
+        performanceType: initialData.performanceType ?? '',
+        location: initialData.location ?? '',
+        notes: initialData.notes ?? ''
       });
       setYoutubePreview(initialData.youtubeVideoId);
     } else {
-      const today = new Date().toISOString().split('T')[0];
-      setFormData(prev => ({ ...prev, performanceDate: today }));
+      const today = new Date().toISOString().split('T')[0] ?? '';
+      setFormData(current => ({ ...current, performanceDate: today }));
     }
   }, [initialData]);
 
@@ -70,10 +81,10 @@ export function PerformanceForm({ initialData, onSuccess, onCancel }: Performanc
     validateYouTubeUrl(formData.youtubeUrl);
   }, [formData.youtubeUrl, validateYouTubeUrl]);
 
-  const handleChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+  const handleChange = (field: keyof PerformanceFormData, value: string) => {
+    setFormData(current => ({ ...current, [field]: value }));
     if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: '' }));
+      setErrors(current => ({ ...current, [field]: '' }));
     }
   };
 
@@ -134,6 +145,7 @@ export function PerformanceForm({ initialData, onSuccess, onCancel }: Performanc
         performanceDate: formData.performanceDate,
         song: formData.song.trim(),
         artist: formData.artist.trim() || undefined,
+        youtubeVideoId: videoId,
         youtubeUrl: formData.youtubeUrl,
         instrument: formData.instrument.trim() || undefined,
         performanceType: formData.performanceType || undefined,
@@ -266,7 +278,7 @@ export function PerformanceForm({ initialData, onSuccess, onCancel }: Performanc
             disabled={saving}
           >
             <option value="">Select type (optional)</option>
-            {PERFORMANCE_TYPES.map(type => (
+            {PERFORMANCE_TYPES.map((type: string) => (
               <option key={type} value={type}>{type}</option>
             ))}
           </select>

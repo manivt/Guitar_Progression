@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
-import { Performance } from '../../types/performance';
-import { getEmbedUrl, getWatchUrl } from '../../lib/youtube';
-import { formatDisplayDate } from '../../lib/dates';
+import type { Performance } from '@shared/performance';
+import { getEmbedUrl, getWatchUrl } from '@lib/youtube';
+import { formatDisplayDate } from '@lib/dates';
 
 interface VideoModalProps {
   performance: Performance | null;
@@ -44,12 +44,14 @@ export function VideoModal({ performance, isOpen, onClose }: VideoModalProps) {
           const firstElement = focusableElements[0];
           const lastElement = focusableElements[focusableElements.length - 1];
 
-          if (e.shiftKey && document.activeElement === firstElement) {
-            e.preventDefault();
-            lastElement.focus();
-          } else if (!e.shiftKey && document.activeElement === lastElement) {
-            e.preventDefault();
-            firstElement.focus();
+          if (firstElement && lastElement) {
+            if (e.shiftKey && document.activeElement === firstElement) {
+              e.preventDefault();
+              lastElement.focus();
+            } else if (!e.shiftKey && document.activeElement === lastElement) {
+              e.preventDefault();
+              firstElement.focus();
+            }
           }
         }
       }
@@ -110,7 +112,7 @@ export function VideoModal({ performance, isOpen, onClose }: VideoModalProps) {
           {performance.notes && (
             <p className="notes-text">{performance.notes}</p>
           )}
-          <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap', marginTop: 'var(--space-3)' }}>
+          <div className="modal-actions">
             <a
               href={getWatchUrl(performance.youtubeVideoId)}
               target="_blank"

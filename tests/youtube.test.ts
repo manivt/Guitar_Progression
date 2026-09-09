@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { extractYouTubeVideoId, isValidYouTubeVideoId, getThumbnailUrl, getEmbedUrl, getWatchUrl } from '../src/lib/youtube';
+import { extractYouTubeVideoId, isValidYouTubeVideoId, getThumbnailUrl, getEmbedUrl, getWatchUrl } from '../src/lib/youtube.js';
 
 describe('YouTube URL parsing', () => {
   describe('extractYouTubeVideoId', () => {
@@ -25,6 +25,7 @@ describe('YouTube URL parsing', () => {
 
     it('extracts video ID from URL with extra query parameters', () => {
       expect(extractYouTubeVideoId('https://www.youtube.com/watch?v=abc123XYZ01&t=30s&list=PLxxx')).toBe('abc123XYZ01');
+      expect(extractYouTubeVideoId('https://www.youtube.com/watch?feature=shared&v=abc123XYZ01')).toBe('abc123XYZ01');
     });
 
     it('returns null for blank input', () => {

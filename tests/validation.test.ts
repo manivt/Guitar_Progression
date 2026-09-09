@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { validatePerformanceInput } from '../worker/validation/performance';
+import { validatePerformanceInput } from '../worker/validation/performance.js';
 
 describe('Performance validation', () => {
   const validInput = {

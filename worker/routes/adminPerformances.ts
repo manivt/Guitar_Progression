@@ -1,13 +1,22 @@
 import type { D1Database } from '@cloudflare/workers-types';
-import { createPerformance, updatePerformance, deletePerformance } from '../db/performances';
-import { validatePerformanceInput } from '../validation/performance';
+import { createPerformance, updatePerformance, deletePerformance } from '../db/performances.js';
+import { validatePerformanceInput } from '../validation/performance.js';
 
 export async function handleCreatePerformance(
   request: Request,
   env: { DB: D1Database; CHILD_BIRTH_DATE: string }
 ): Promise<Response> {
   try {
-    const body = await request.json();
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      return new Response(JSON.stringify({ error: 'Invalid JSON request body' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
     const validation = validatePerformanceInput(body);
 
     if (!validation.valid || !validation.data) {
@@ -46,7 +55,16 @@ export async function handleUpdatePerformance(
       });
     }
 
-    const body = await request.json();
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      return new Response(JSON.stringify({ error: 'Invalid JSON request body' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
     const validation = validatePerformanceInput(body);
 
     if (!validation.valid || !validation.data) {
@@ -78,7 +96,7 @@ export async function handleUpdatePerformance(
 }
 
 export async function handleDeletePerformance(
-  request: Request,
+  _request: Request,
   env: { DB: D1Database; CHILD_BIRTH_DATE: string },
   id: string
 ): Promise<Response> {

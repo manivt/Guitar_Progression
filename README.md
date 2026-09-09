@@ -70,14 +70,33 @@ Visit `http://localhost:5173` for the archive and `http://localhost:5173/admin` 
    npm run db:migrate:prod
    ```
 
-5. **Configure secrets in Cloudflare Dashboard:**
-   - `CHILD_BIRTH_DATE` (format: YYYY-MM-DD)
-   - `CHILD_DISPLAY_NAME` (e.g., "Musician")
+5. **Configure secrets in Cloudflare:**
+   Use Wrangler or the Cloudflare Dashboard to configure production secrets:
+   ```bash
+   npx wrangler secret put CHILD_BIRTH_DATE
+   # Enter date in format: YYYY-MM-DD (e.g., 2015-01-01)
+
+   npx wrangler secret put CHILD_DISPLAY_NAME
+   # Enter display name (e.g., Musician)
+   ```
 
 6. **Deploy:**
    ```bash
    npm run deploy
    ```
+
+## Documentation
+
+Comprehensive technical documentation is available in the [`docs/`](docs/) directory:
+- [Architecture Overview](docs/architecture/overview.md)
+- [Trust & Architecture Boundaries](docs/architecture/boundaries.md)
+- [API Endpoints](docs/backend/api-endpoints.md)
+- [Database Schema](docs/backend/database-schema.md)
+- [Validation Rules](docs/backend/validation.md)
+- [Component Map](docs/frontend/component-map.md)
+- [Privacy & Security Model](docs/security/privacy-model.md)
+- [Cloudflare Setup & Deployment](docs/deployment/cloudflare-setup.md)
+- [Audit Checklist](docs/blindspot-checklist.md)
 
 ## Environment Variables
 

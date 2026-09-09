@@ -50,9 +50,9 @@ function parseDateOnly(dateString: string): Date | null {
     return null;
   }
 
-  const year = parseInt(match[1], 10);
-  const month = parseInt(match[2], 10) - 1;
-  const day = parseInt(match[3], 10);
+  const year = parseInt(match[1]!, 10);
+  const month = parseInt(match[2]!, 10) - 1;
+  const day = parseInt(match[3]!, 10);
 
   const date = new Date(year, month, day);
 

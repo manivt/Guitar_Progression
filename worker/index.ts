@@ -1,5 +1,5 @@
-import { handleGetPerformances, handleGetPerformance } from './routes/performances';
-import { handleCreatePerformance, handleUpdatePerformance, handleDeletePerformance } from './routes/adminPerformances';
+import { handleGetPerformances, handleGetPerformance } from './routes/performances.js';
+import { handleCreatePerformance, handleUpdatePerformance, handleDeletePerformance } from './routes/adminPerformances.js';
 
 export interface Env {
   DB: D1Database;
@@ -9,7 +9,7 @@ export interface Env {
 }
 
 export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  async fetch(request: Request, env: Env, _ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     const path = url.pathname;
 
@@ -22,7 +22,7 @@ export default {
       
       const idMatch = adminPath.match(/^\/(\d+)$/);
       if (idMatch) {
-        const id = idMatch[1];
+        const id = idMatch[1]!;
         if (request.method === 'PUT') {
           return handleUpdatePerformance(request, env, id);
         }
@@ -41,8 +41,15 @@ export default {
     const performanceMatch = path.match(/^\/api\/performances\/(\d+)$/);
     if (performanceMatch) {
       if (request.method === 'GET') {
-        return handleGetPerformance(request, env, performanceMatch[1]);
+        return handleGetPerformance(request, env, performanceMatch[1]!);
       }
+    }
+
+    if (path.startsWith('/api/')) {
+      return new Response(JSON.stringify({ error: 'Endpoint or method not found' }), {
+        status: 404,
+        headers: { 'Content-Type': 'application/json' }
+      });
     }
 
     return env.ASSETS.fetch(request);

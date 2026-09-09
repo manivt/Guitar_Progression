@@ -1,6 +1,9 @@
-import { extractYouTubeVideoId, isValidYouTubeVideoId } from '../utils/youtube';
-import { isValidDateOnly } from '../../src/lib/dates';
-import { PERFORMANCE_TYPES } from '../../src/types/performance';
+import { extractYouTubeVideoId, isValidYouTubeVideoId } from '../utils/youtube.js';
+import { PERFORMANCE_TYPES, type PerformanceInput, type PerformanceType } from '../types/performance.js';
+
+function isValidDateOnly(dateString: string): boolean {
+  return /^\d{4}-\d{2}-\d{2}$/.test(dateString);
+}
 
 export interface ValidationError {
   field: string;
@@ -10,41 +13,40 @@ export interface ValidationError {
 export interface ValidationResult {
   valid: boolean;
   errors: ValidationError[];
-  data?: {
-    performanceDate: string;
-    song: string;
-    artist: string | null;
-    youtubeVideoId: string;
-    instrument: string | null;
-    performanceType: string | null;
-    location: string | null;
-    notes: string | null;
-  };
+  data?: PerformanceInput;
 }
 
-export function validatePerformanceInput(input: Record<string, unknown>): ValidationResult {
+export function validatePerformanceInput(input: unknown): ValidationResult {
+  if (!input || typeof input !== 'object' || Array.isArray(input)) {
+    return {
+      valid: false,
+      errors: [{ field: 'body', message: 'Invalid input. Expected a JSON object.' }]
+    };
+  }
+
+  const obj = input as Record<string, unknown>;
   const errors: ValidationError[] = [];
 
-  const performanceDate = validateRequiredString(input.performanceDate, 'Performance date');
+  const performanceDate = validateRequiredString(obj.performanceDate, 'Performance date');
   if (!performanceDate) {
     errors.push({ field: 'performanceDate', message: 'Performance date is required.' });
   } else if (!isValidDateOnly(performanceDate)) {
     errors.push({ field: 'performanceDate', message: 'Invalid date format. Use YYYY-MM-DD.' });
   }
 
-  const song = validateRequiredString(input.song, 'Song title');
+  const song = validateRequiredString(obj.song, 'Song title');
   if (!song) {
     errors.push({ field: 'song', message: 'Song title is required.' });
   } else if (song.length > 200) {
     errors.push({ field: 'song', message: 'Song title must be 200 characters or less.' });
   }
 
-  const artist = validateOptionalString(input.artist, 'Artist');
+  const artist = validateOptionalString(obj.artist, 'Artist');
   if (artist && artist.length > 200) {
     errors.push({ field: 'artist', message: 'Artist must be 200 characters or less.' });
   }
 
-  const youtubeUrl = validateRequiredString(input.youtubeUrl, 'YouTube URL');
+  const youtubeUrl = validateRequiredString(obj.youtubeUrl, 'YouTube URL');
   let youtubeVideoId: string | null = null;
   if (!youtubeUrl) {
     errors.push({ field: 'youtubeUrl', message: 'YouTube URL is required.' });
@@ -55,22 +57,22 @@ export function validatePerformanceInput(input: Record<string, unknown>): Valida
     }
   }
 
-  const instrument = validateOptionalString(input.instrument, 'Instrument');
+  const instrument = validateOptionalString(obj.instrument, 'Instrument');
   if (instrument && instrument.length > 100) {
     errors.push({ field: 'instrument', message: 'Instrument must be 100 characters or less.' });
   }
 
-  const performanceType = validateOptionalString(input.performanceType, 'Performance type');
-  if (performanceType && !PERFORMANCE_TYPES.includes(performanceType as any)) {
+  const performanceType = validateOptionalString(obj.performanceType, 'Performance type');
+  if (performanceType && !PERFORMANCE_TYPES.includes(performanceType as PerformanceType)) {
     errors.push({ field: 'performanceType', message: 'Invalid performance type.' });
   }
 
-  const location = validateOptionalString(input.location, 'Location');
+  const location = validateOptionalString(obj.location, 'Location');
   if (location && location.length > 200) {
     errors.push({ field: 'location', message: 'Location must be 200 characters or less.' });
   }
 
-  const notes = validateOptionalString(input.notes, 'Notes');
+  const notes = validateOptionalString(obj.notes, 'Notes');
   if (notes && notes.length > 5000) {
     errors.push({ field: 'notes', message: 'Notes must be 5000 characters or less.' });
   }
@@ -95,7 +97,7 @@ export function validatePerformanceInput(input: Record<string, unknown>): Valida
   };
 }
 
-function validateRequiredString(value: unknown, fieldName: string): string | null {
+function validateRequiredString(value: unknown, _fieldName: string): string | null {
   if (value === undefined || value === null) {
     return null;
   }
@@ -109,7 +111,7 @@ function validateRequiredString(value: unknown, fieldName: string): string | nul
   return trimmed;
 }
 
-function validateOptionalString(value: unknown, fieldName: string): string | null {
+function validateOptionalString(value: unknown, _fieldName: string): string | null {
   if (value === undefined || value === null) {
     return null;
   }

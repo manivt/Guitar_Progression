@@ -1,8 +1,8 @@
 import type { D1Database } from '@cloudflare/workers-types';
-import { getAllPerformances, getPerformanceById } from '../db/performances';
+import { getAllPerformances, getPerformanceById } from '../db/performances.js';
 
 export async function handleGetPerformances(
-  request: Request,
+  _request: Request,
   env: { DB: D1Database; CHILD_BIRTH_DATE: string }
 ): Promise<Response> {
   try {
@@ -20,7 +20,7 @@ export async function handleGetPerformances(
 }
 
 export async function handleGetPerformance(
-  request: Request,
+  _request: Request,
   env: { DB: D1Database; CHILD_BIRTH_DATE: string },
   id: string
 ): Promise<Response> {

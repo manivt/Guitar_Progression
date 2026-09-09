@@ -1,2 +1,5 @@
+# Cloudflare Worker Environment Variables
+# Copy this file to .dev.vars for local development (do NOT commit .dev.vars)
+
 CHILD_BIRTH_DATE=2015-01-01
 CHILD_DISPLAY_NAME=Musician

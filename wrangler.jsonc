@@ -4,7 +4,7 @@
   "compatibility_date": "2026-09-09",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
-    "directory": "./dist",
+    "directory": "./dist/client",
     "binding": "ASSETS"
   },
   "d1_databases": [
@@ -13,9 +13,5 @@
       "database_name": "guitar-archive",
       "database_id": "REPLACE_WITH_CLOUDFLARE_DATABASE_ID"
     }
-  ],
-  "vars": {
-    "CHILD_DISPLAY_NAME": "Musician",
-    "CHILD_BIRTH_DATE": "2015-01-01"
-  }
+  ]
 }

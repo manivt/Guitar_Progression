@@ -1,4 +1,4 @@
-import { Performance } from '../../types/performance';
+import type { Performance } from '@shared/performance';
 import { PerformanceCard } from './PerformanceCard';
 
 interface PerformanceGridProps {

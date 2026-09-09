@@ -1,6 +1,5 @@
-import { Performance } from '../../types/performance';
+import type { Performance } from '@shared/performance';
 import { PerformanceGrid } from './PerformanceGrid';
-import { getYear } from '../../lib/dates';
 
 interface YearSectionProps {
   year: number;

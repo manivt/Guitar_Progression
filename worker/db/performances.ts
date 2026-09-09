@@ -1,7 +1,6 @@
 import type { D1Database } from '@cloudflare/workers-types';
-import type { Performance, PerformanceInput } from '../../src/types/performance';
-import { calculateAge } from '../utils/age';
-import { parseDateOnly } from '../utils/youtube';
+import type { Performance, PerformanceInput } from '../types/performance.js';
+import { calculateAge } from '../utils/age.js';
 
 export interface PerformanceRow {
   id: number;
@@ -154,5 +153,5 @@ export async function deletePerformance(db: D1Database, id: number): Promise<boo
     'DELETE FROM performances WHERE id = ?'
   ).bind(id).run();
 
-  return result.changes > 0;
+  return (result.meta.changes ?? 0) > 0;
 }

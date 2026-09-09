@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Performance } from '../../types/performance';
-import { getPerformances } from '../../lib/api';
-import { Header } from '../components/Header';
-import { YearSection } from '../components/YearSection';
-import { VideoModal } from '../components/VideoModal';
-import { getYear } from '../../lib/dates';
+import type { Performance } from '@shared/performance';
+import { getPerformances } from '@lib/api';
+import { Header } from '@components/Header';
+import { YearSection } from '@components/YearSection';
+import { VideoModal } from '@components/VideoModal';
+import { getYear } from '@lib/dates';
 
 export function HomePage() {
   const [performances, setPerformances] = useState<Performance[]>([]);
@@ -18,7 +18,7 @@ export function HomePage() {
         setLoading(true);
         const data = await getPerformances();
         setPerformances(data);
-      } catch (err) {
+      } catch {
         setError('Unable to load performances. Please try again later.');
       } finally {
         setLoading(false);
@@ -61,18 +61,21 @@ export function HomePage() {
             {loading ? (
               <p className="loading-text">Loading performances…</p>
             ) : error ? (
-              <p className="empty-state" style={{ color: 'var(--color-danger)' }}>{error}</p>
+              <p className="empty-state empty-state-error">{error}</p>
             ) : performances.length === 0 ? (
               <p className="empty-state">No performances have been added yet.</p>
             ) : (
-              sortedYears.map(year => (
-                <YearSection
-                  key={year}
-                  year={year}
-                  performances={performancesByYear[year]}
-                  onCardClick={setSelectedPerformance}
-                />
-              ))
+              sortedYears.map(year => {
+                const yearPerformances = performancesByYear[year] ?? [];
+                return (
+                  <YearSection
+                    key={year}
+                    year={year}
+                    performances={yearPerformances}
+                    onCardClick={setSelectedPerformance}
+                  />
+                );
+              })
             )}
           </div>
         </div>

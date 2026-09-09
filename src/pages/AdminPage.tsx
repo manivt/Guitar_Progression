@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Performance } from '../../types/performance';
-import { getPerformances, deletePerformance } from '../../lib/api';
-import { PerformanceForm } from './PerformanceForm';
-import { ConfirmDialog } from './ConfirmDialog';
-import { useToast } from './Toast';
+import { Link } from 'react-router-dom';
+import type { Performance } from '@shared/performance';
+import { getPerformances, deletePerformance } from '@lib/api';
+import { formatDisplayDate } from '@lib/dates';
+import { PerformanceForm } from '@components/PerformanceForm';
+import { ConfirmDialog } from '@components/ConfirmDialog';
+import { useToast } from '@components/Toast';
 
 export function AdminPage() {
   const { success, error } = useToast();
@@ -18,7 +20,7 @@ export function AdminPage() {
       setLoading(true);
       const data = await getPerformances();
       setPerformances(data);
-    } catch (err) {
+    } catch {
       error('Unable to load performances');
     } finally {
       setLoading(false);
@@ -52,7 +54,7 @@ export function AdminPage() {
       await deletePerformance(deletingId);
       success('Performance deleted');
       loadPerformances();
-    } catch (err) {
+    } catch {
       error('Unable to delete performance');
     } finally {
       setDeletingId(null);
@@ -64,19 +66,19 @@ export function AdminPage() {
     setDeletingId(null);
   };
 
-  const currentPerformance = performances.find(p => p.id === editingId) || null;
+  const currentPerformance = performances.find(p => p.id === editingId) ?? undefined;
 
   return (
     <div className="admin-page">
       <div className="container">
         <header className="site-header">
-          <div className="container" style={{ padding: 0 }}>
+          <div className="site-header-inner">
             <div className="site-header-content">
               <h1 className="site-title">Guitar Journey</h1>
               <p className="site-subtitle">Admin — Manage Performances</p>
             </div>
             <nav className="site-header-actions" aria-label="Main navigation">
-              <a href="/" className="btn btn-ghost">View Archive</a>
+              <Link to="/" className="btn btn-ghost">View Archive</Link>
             </nav>
           </div>
         </header>
@@ -85,7 +87,7 @@ export function AdminPage() {
           <div className="admin-container">
             <section className="admin-form-section" aria-labelledby="form-heading">
               <PerformanceForm
-                initialData={currentPerformance}
+                {...(currentPerformance ? { initialData: currentPerformance } : {})}
                 onSuccess={handleAddSuccess}
                 onCancel={() => setEditingId(null)}
               />
@@ -106,7 +108,7 @@ export function AdminPage() {
                     <div key={performance.id} className="admin-list-item" role="listitem">
                       <div className="admin-list-info">
                         <span className="admin-list-date">
-                          {new Date(performance.performanceDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                          {formatDisplayDate(performance.performanceDate)}
                         </span>
                         <span className="admin-list-song">{performance.song}</span>
                         {performance.artist && (
