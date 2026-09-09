@@ -30,7 +30,7 @@ docs/
 │   └── logging.md               # Privacy-preserving logging practices
 ├── testing/
 │   ├── test-strategy.md         # Quality assurance & testing pyramid
-│   ├── unit-tests.md            # Vitest unit test breakdown (62 tests)
+│   ├── unit-tests.md            # Vitest unit test breakdown (71 tests)
 │   └── integration-tests.md     # Miniflare D1 & API integration tests
 ├── deployment/
 │   ├── local-dev.md             # Local development setup & scripts
@@ -69,7 +69,7 @@ docs/
 
 ### Testing & Quality Assurance
 - [Test Strategy](testing/test-strategy.md) — Testing approach, test pyramid, and coverage goals.
-- [Unit Tests](testing/unit-tests.md) — Breakdown of the 62 unit tests across age math, YouTube parsing, and validation.
+- [Unit Tests](testing/unit-tests.md) — Breakdown of the 71 unit tests across age math, YouTube parsing, and validation.
 - [Integration Tests](testing/integration-tests.md) — Miniflare D1 testing and manual API endpoint verification.
 
 ### Operations & Deployment

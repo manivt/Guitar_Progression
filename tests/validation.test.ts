@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { validatePerformanceInput } from '../worker/validation/performance.js';
+import { validatePerformanceInput, validatePerformanceUpdateInput } from '../worker/validation/performance.js';
 
 describe('Performance validation', () => {
   const validInput = {
@@ -41,6 +41,24 @@ describe('Performance validation', () => {
     const result = validatePerformanceInput(input);
     expect(result.valid).toBe(false);
     expect(result.errors.some(e => e.field === 'performanceDate')).toBe(true);
+  });
+
+  it('rejects non-existent calendar dates', () => {
+    const invalidDates = ['2026-02-30', '2026-13-01', '2026-00-10', '2025-04-31'];
+
+    for (const performanceDate of invalidDates) {
+      const input = { ...validInput, performanceDate };
+      const result = validatePerformanceInput(input);
+      expect(result.valid).toBe(false);
+      expect(result.errors.some(e => e.field === 'performanceDate')).toBe(true);
+    }
+  });
+
+  it('accepts valid leap-year calendar dates', () => {
+    const input = { ...validInput, performanceDate: '2024-02-29' };
+    const result = validatePerformanceInput(input);
+    expect(result.valid).toBe(true);
+    expect(result.data?.performanceDate).toBe('2024-02-29');
   });
 
   it('rejects missing song title', () => {
@@ -172,5 +190,51 @@ describe('Performance validation', () => {
     expect(result.data?.song).toBe('Hotel California');
     expect(result.data?.artist).toBe('Eagles');
     expect(result.data?.instrument).toBe('Electric Guitar');
+  });
+});
+
+describe('Partial update validation', () => {
+  it('accepts a single-field partial update', () => {
+    const result = validatePerformanceUpdateInput({ song: 'Updated Song' });
+    expect(result.valid).toBe(true);
+    expect(result.data).toEqual({ song: 'Updated Song' });
+  });
+
+  it('accepts an empty partial update', () => {
+    const result = validatePerformanceUpdateInput({});
+    expect(result.valid).toBe(true);
+    expect(result.data).toEqual({});
+  });
+
+  it('omits absent optional fields rather than nulling them', () => {
+    const result = validatePerformanceUpdateInput({ song: 'Updated Song' });
+    expect(result.valid).toBe(true);
+    expect(result.data).not.toHaveProperty('artist');
+    expect(result.data).not.toHaveProperty('instrument');
+    expect(result.data).not.toHaveProperty('youtubeVideoId');
+  });
+
+  it('validates provided fields in a partial update', () => {
+    const result = validatePerformanceUpdateInput({ song: 'a'.repeat(201) });
+    expect(result.valid).toBe(false);
+    expect(result.errors.some(e => e.field === 'song')).toBe(true);
+  });
+
+  it('rejects an invalid date in a partial update', () => {
+    const result = validatePerformanceUpdateInput({ performanceDate: '2026-02-30' });
+    expect(result.valid).toBe(false);
+    expect(result.errors.some(e => e.field === 'performanceDate')).toBe(true);
+  });
+
+  it('extracts the YouTube video ID when the URL is provided', () => {
+    const result = validatePerformanceUpdateInput({ youtubeUrl: 'https://youtu.be/abc123XYZ01' });
+    expect(result.valid).toBe(true);
+    expect(result.data?.youtubeVideoId).toBe('abc123XYZ01');
+  });
+
+  it('rejects a non-object body', () => {
+    const result = validatePerformanceUpdateInput(null);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some(e => e.field === 'body')).toBe(true);
   });
 });
