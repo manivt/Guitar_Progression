@@ -50,13 +50,6 @@ export function HomePage() {
 
       <main>
         <div className="container">
-          <section className="hero" aria-labelledby="hero-title">
-            <h2 id="hero-title" className="hero-title site-title">Guitar Journey</h2>
-            <p className="hero-subtitle site-subtitle">
-              A chronological collection of performances, practice sessions, recitals, and musical milestones.
-            </p>
-          </section>
-
           <div className="archive" role="main" aria-label="Performance archive">
             {loading ? (
               <p className="loading-text">Loading performances…</p>

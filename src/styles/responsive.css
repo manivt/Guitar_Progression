@@ -14,10 +14,6 @@
     gap: var(--space-3);
   }
 
-  .hero {
-    padding: var(--space-5) 0 var(--space-4);
-  }
-
   .performance-grid {
     grid-template-columns: 1fr;
   }

@@ -10,7 +10,6 @@ App (with ToastProvider & BrowserRouter)
 │   ├── Route "/" -> HomePage
 │   │   ├── Header
 │   │   │   └── Link to="/admin"
-│   │   ├── Hero Section
 │   │   ├── YearSection (grouped by calendar year)
 │   │   │   └── PerformanceGrid
 │   │   │       └── PerformanceCard (Article with native Button)
