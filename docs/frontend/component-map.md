@@ -18,7 +18,7 @@ App (with ToastProvider & BrowserRouter)
 │   │   └── VideoModal (accessible modal with focus trap & Escape key)
 │   │
 │   ├── Route "/admin" -> AdminPage
-│   │   ├── Header (with Link to="/")
+│   │   ├── Header (shared layout, with archive link)
 │   │   ├── PerformanceForm (Add / Edit form with instant YouTube preview)
 │   │   ├── Existing Performances List
 │   │   │   ├── Edit button
@@ -33,13 +33,14 @@ App (with ToastProvider & BrowserRouter)
 
 ### `Header`
 - Keeps the title and compact action icons in one row on desktop and mobile.
-- Provides an accessible theme toggle and settings link with labels and native tooltips.
+- Displays the shared “The Journey” title; the archive subtitle identifies Nathaniel's musical performances, while the admin route uses its management subtitle.
+- Provides an accessible theme toggle and contextual settings or archive link with labels and native tooltips.
+- Uses the same full-width structure, title alignment, and responsive gutters on the archive and admin pages.
 - Uses a normal document navigation for `/admin`, ensuring Cloudflare Access can intercept the request before the admin UI loads.
 
 ### `ThemeToggle`
-- Defaults to the operating-system `prefers-color-scheme` value.
+- Defaults to dark mode for first-time visitors.
 - Persists an explicit light or dark choice in `localStorage`.
-- Tracks later system-theme changes until the visitor makes an explicit choice.
 
 ### `PerformanceCard`
 - Uses an `<article>` container wrapping a semantic `<button className="card-button">`.

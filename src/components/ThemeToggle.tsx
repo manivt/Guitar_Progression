@@ -4,21 +4,12 @@ type Theme = 'light' | 'dark';
 
 const THEME_STORAGE_KEY = 'guitar-journey-theme';
 
-function getStoredTheme(): Theme | null {
-  try {
-    const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-    return storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : null;
-  } catch {
-    return null;
-  }
-}
-
 function getPreferredTheme(): Theme {
   const activeTheme = document.documentElement.dataset.theme;
   if (activeTheme === 'light' || activeTheme === 'dark') {
     return activeTheme;
   }
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  return 'dark';
 }
 
 function applyTheme(theme: Theme): void {
@@ -34,18 +25,6 @@ export function ThemeToggle() {
   useEffect(() => {
     applyTheme(theme);
   }, [theme]);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleSystemThemeChange = (event: MediaQueryListEvent) => {
-      if (getStoredTheme() === null) {
-        setTheme(event.matches ? 'dark' : 'light');
-      }
-    };
-
-    mediaQuery.addEventListener('change', handleSystemThemeChange);
-    return () => mediaQuery.removeEventListener('change', handleSystemThemeChange);
-  }, []);
 
   const nextTheme: Theme = theme === 'dark' ? 'light' : 'dark';
   const label = `Switch to ${nextTheme} theme`;

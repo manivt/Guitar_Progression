@@ -44,8 +44,8 @@ export function HomePage() {
   return (
     <div>
       <Header
-        siteTitle="Nathaniel's Guitar Journey"
-        siteSubtitle="A chronological archive of musical performances"
+        siteTitle="The Journey"
+        siteSubtitle="A chronological archive of Nathaniel's musical performances"
       />
 
       <main>

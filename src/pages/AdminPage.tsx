@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import type { Performance } from '@shared/performance';
 import { getPerformances, deletePerformance } from '@lib/api';
 import { formatDisplayDate } from '@lib/dates';
 import { PerformanceForm } from '@components/PerformanceForm';
 import { ConfirmDialog } from '@components/ConfirmDialog';
 import { useToast } from '@components/Toast';
-import { ThemeToggle } from '@components/ThemeToggle';
+import { Header } from '@components/Header';
 
 export function AdminPage() {
   const { success, error } = useToast();
@@ -71,21 +70,14 @@ export function AdminPage() {
 
   return (
     <div className="admin-page">
-      <div className="container">
-        <header className="site-header">
-          <div className="site-header-inner">
-            <div className="site-header-content">
-              <h1 className="site-title">Nathaniel's Guitar Journey</h1>
-              <p className="site-subtitle">Admin — Manage Performances</p>
-            </div>
-            <nav className="site-header-actions" aria-label="Main navigation">
-              <ThemeToggle />
-              <Link to="/" className="btn btn-ghost">View Archive</Link>
-            </nav>
-          </div>
-        </header>
+      <Header
+        siteTitle="The Journey"
+        siteSubtitle="Admin — Manage Performances"
+        action="archive"
+      />
 
-        <main>
+      <main>
+        <div className="container">
           <div className="admin-container">
             <section className="admin-form-section" aria-labelledby="form-heading">
               <PerformanceForm
@@ -141,19 +133,19 @@ export function AdminPage() {
               )}
             </section>
           </div>
-        </main>
+        </div>
+      </main>
 
-        <ConfirmDialog
-          isOpen={deleteConfirmOpen}
-          onClose={cancelDelete}
-          onConfirm={confirmDelete}
-          title="Delete Performance"
-          message={`Are you sure you want to delete "${performances.find(p => p.id === deletingId)?.song}"? This action cannot be undone.`}
-          confirmText="Delete Performance"
-          variant="danger"
-          loading={!!deletingId}
-        />
-      </div>
+      <ConfirmDialog
+        isOpen={deleteConfirmOpen}
+        onClose={cancelDelete}
+        onConfirm={confirmDelete}
+        title="Delete Performance"
+        message={`Are you sure you want to delete "${performances.find(p => p.id === deletingId)?.song}"? This action cannot be undone.`}
+        confirmText="Delete Performance"
+        variant="danger"
+        loading={!!deletingId}
+      />
     </div>
   );
 }

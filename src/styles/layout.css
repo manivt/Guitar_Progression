@@ -65,7 +65,11 @@
 }
 
 .admin-page {
-  padding: var(--space-6) 0 var(--space-7);
+  padding-bottom: var(--space-7);
+}
+
+.admin-page main {
+  padding-top: var(--space-6);
 }
 
 .admin-container {

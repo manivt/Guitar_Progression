@@ -58,7 +58,10 @@ All components use declarative class names defined in `components.css`:
 - `@media (prefers-reduced-motion: reduce)` automatically disables transitions and keyframe animations (`fadeIn`, `slideUp`, `slideIn`) for users who have requested reduced motion in their OS preferences.
 
 ### 4. Light and Dark Themes
-- Light-mode tokens are defined on `:root`; dark-mode overrides are scoped to `:root[data-theme='dark']`.
-- A small inline bootstrap script in `index.html` applies the saved or system-preferred theme before the application renders, preventing a light-theme flash.
+- Dark-mode tokens are defined on `:root` as the default; light-mode overrides are scoped to `:root[data-theme='light']`.
+- A small inline bootstrap script in `index.html` applies a saved preference or the dark default before the application renders, preventing a theme flash.
 - `ThemeToggle` stores explicit visitor choices under `guitar-journey-theme` in `localStorage`.
 - The browser `theme-color` metadata is synchronized with the active theme for compatible mobile browser chrome.
+
+### 5. Site Icon
+- `public/favicon.svg` uses a simplified electric-guitar silhouette in the site's charcoal and gold palette so it remains recognizable at browser-tab sizes.
