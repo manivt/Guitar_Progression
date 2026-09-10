@@ -44,7 +44,7 @@ export function HomePage() {
   return (
     <div>
       <Header
-        siteTitle="Guitar Journey"
+        siteTitle="Nathaniel's Guitar Journey"
         siteSubtitle="A chronological archive of musical performances"
       />
 
@@ -76,7 +76,7 @@ export function HomePage() {
 
       <footer className="footer">
         <div className="container">
-          <p>Guitar Journey — A family music archive</p>
+          <p>Nathaniel's Guitar Journey — A family music archive</p>
         </div>
       </footer>
 

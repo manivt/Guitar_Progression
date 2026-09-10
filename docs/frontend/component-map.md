@@ -9,7 +9,8 @@ App (with ToastProvider & BrowserRouter)
 ├── Routes
 │   ├── Route "/" -> HomePage
 │   │   ├── Header
-│   │   │   └── Link to="/admin"
+│   │   │   ├── ThemeToggle
+│   │   │   └── Settings link to="/admin" (full navigation for Cloudflare Access)
 │   │   ├── YearSection (grouped by calendar year)
 │   │   │   └── PerformanceGrid
 │   │   │       └── PerformanceCard (Article with native Button)
@@ -29,6 +30,16 @@ App (with ToastProvider & BrowserRouter)
 ```
 
 ## Key Components
+
+### `Header`
+- Keeps the title and compact action icons in one row on desktop and mobile.
+- Provides an accessible theme toggle and settings link with labels and native tooltips.
+- Uses a normal document navigation for `/admin`, ensuring Cloudflare Access can intercept the request before the admin UI loads.
+
+### `ThemeToggle`
+- Defaults to the operating-system `prefers-color-scheme` value.
+- Persists an explicit light or dark choice in `localStorage`.
+- Tracks later system-theme changes until the visitor makes an explicit choice.
 
 ### `PerformanceCard`
 - Uses an `<article>` container wrapping a semantic `<button className="card-button">`.

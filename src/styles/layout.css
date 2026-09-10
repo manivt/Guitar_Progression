@@ -24,12 +24,18 @@
 
 .site-header-content {
   flex: 1;
+  min-width: 0;
 }
 
 .site-header-actions {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  flex-shrink: 0;
+  gap: var(--space-1);
+}
+
+.site-header .site-subtitle {
+  margin-bottom: 0;
 }
 
 .archive {

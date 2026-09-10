@@ -37,3 +37,4 @@ Cloudflare Access Protected (Login Required)
 - **Zero Credentials in Code:** No authentication passwords or secret signing keys exist within the Worker codebase.
 - **DDoS and Brute-Force Defense:** Unauthenticated requests never reach the Worker CPU; Cloudflare edge blocks them with an Access login challenge.
 - **Audit Logging:** Every administrative action is logged in Cloudflare Zero Trust access audit logs.
+- **Full Settings Navigation:** The public header uses a native link rather than client-side SPA navigation for `/admin`, ensuring a click produces a request that Cloudflare Access can challenge.

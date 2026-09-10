@@ -6,6 +6,7 @@ import { formatDisplayDate } from '@lib/dates';
 import { PerformanceForm } from '@components/PerformanceForm';
 import { ConfirmDialog } from '@components/ConfirmDialog';
 import { useToast } from '@components/Toast';
+import { ThemeToggle } from '@components/ThemeToggle';
 
 export function AdminPage() {
   const { success, error } = useToast();
@@ -74,10 +75,11 @@ export function AdminPage() {
         <header className="site-header">
           <div className="site-header-inner">
             <div className="site-header-content">
-              <h1 className="site-title">Guitar Journey</h1>
+              <h1 className="site-title">Nathaniel's Guitar Journey</h1>
               <p className="site-subtitle">Admin — Manage Performances</p>
             </div>
             <nav className="site-header-actions" aria-label="Main navigation">
+              <ThemeToggle />
               <Link to="/" className="btn btn-ghost">View Archive</Link>
             </nav>
           </div>
