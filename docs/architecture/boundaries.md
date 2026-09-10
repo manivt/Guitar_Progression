@@ -71,3 +71,6 @@ This document defines the system boundaries, trust zones, and security responsib
 - **Metadata Only:** The database stores only the sanitized 11-character YouTube video ID.
 - **No Embedded HTML:** The database never stores iframe or embed code.
 - **Player Isolation:** YouTube player is loaded on-demand only when a user clicks a performance card thumbnail.
+- **Embed Identification:** The iframe uses `strict-origin-when-cross-origin`, so cross-origin requests disclose only the site origin required by YouTube, not the archive page path or query string.
+- **Runtime Origin:** The YouTube `origin` parameter comes from `window.location.origin`; no deployment hostname is trusted from stored data or hardcoded in the bundle.
+- **Scoped Policy:** The iframe policy is configured on `VideoModal` itself. Global Referrer-Policy, CSP, iframe sandbox, and other security headers must not be weakened to support playback.

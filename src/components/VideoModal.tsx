@@ -67,6 +67,9 @@ export function VideoModal({ performance, isOpen, onClose }: VideoModalProps) {
 
   const displayDate = formatDisplayDate(performance.performanceDate);
   const ageText = `Age ${performance.age.years} year${performance.age.years !== 1 ? 's' : ''}${performance.age.months > 0 ? `, ${performance.age.months} month${performance.age.months !== 1 ? 's' : ''}` : ''}`;
+  const embedUrl = new URL(getEmbedUrl(performance.youtubeVideoId, window.location.origin));
+  embedUrl.searchParams.set('rel', '0');
+  embedUrl.searchParams.set('modestbranding', '1');
 
   return (
     <div
@@ -101,11 +104,11 @@ export function VideoModal({ performance, isOpen, onClose }: VideoModalProps) {
         <div className="modal-body">
           <iframe
             className="modal-video"
-            src={`${getEmbedUrl(performance.youtubeVideoId)}?rel=0&modestbranding=1`}
+            src={embedUrl.toString()}
             title={`${performance.song} by ${performance.artist || 'Unknown Artist'}`}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
-            referrerPolicy="no-referrer"
+            referrerPolicy="strict-origin-when-cross-origin"
           />
         </div>
         <footer className="modal-footer">

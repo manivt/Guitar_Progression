@@ -41,6 +41,9 @@ App (with ToastProvider & BrowserRouter)
 - Dismisses upon `Escape` key press or clicking the background backdrop.
 - Restores focus to the previously active element upon closing.
 - Loads the YouTube iframe player on demand.
+- Uses the standard `https://www.youtube.com/embed/{VIDEO_ID}` player URL and adds the current `window.location.origin` as the encoded `origin` parameter.
+- Sets the iframe `referrerPolicy` to `strict-origin-when-cross-origin`, allowing YouTube to identify the embedding site without receiving the full page path.
+- Preserves fullscreen playback and the explicit iframe permission allowlist.
 
 ### `PerformanceForm`
 - Validates YouTube URLs client-side without network calls.

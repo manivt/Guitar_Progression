@@ -27,7 +27,8 @@ GET / → Worker.fetch()
 User clicks PerformanceCard
   → onClick → setSelectedPerformance(performance)
   → VideoModal renders (portal to body)
-  → Modal iframe src = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`
+  → Modal iframe src = `https://www.youtube.com/embed/${videoId}?origin=${encodeURIComponent(window.location.origin)}&rel=0&modestbranding=1`
+  → iframe referrer policy = `strict-origin-when-cross-origin` (sends site origin required by YouTube without exposing the full page URL)
   → YouTube player loads on-demand (not at page load)
 ```
 

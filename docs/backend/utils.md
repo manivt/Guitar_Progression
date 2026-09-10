@@ -31,6 +31,7 @@ Normalizes diverse YouTube link formats into an 11-character video ID:
 ```ts
 export function extractYouTubeVideoId(url: string): string | null;
 export function isValidYouTubeVideoId(videoId: string): boolean;
+export function getEmbedUrl(videoId: string, origin?: string): string;
 ```
 
 ### Supported Formats
@@ -45,3 +46,8 @@ export function isValidYouTubeVideoId(videoId: string): boolean;
 1. **URL Constructor:** Attempts standard URL parsing, checking `hostname` and `searchParams.get('v')` or pathname.
 2. **Regex Fallback:** If URL parsing throws on non-standard input, runs matching against `YOUTUBE_URL_PATTERNS`.
 3. **Validation Guard:** All extracted strings are verified against `^[a-zA-Z0-9_-]{11}$` before being returned.
+
+### Embed URL Construction
+- `getEmbedUrl()` always starts with the standard `https://www.youtube.com/embed/{VIDEO_ID}` URL.
+- The optional `origin` value is added with `URL.searchParams`, which safely encodes the scheme and host.
+- `VideoModal` supplies `window.location.origin` at runtime so Workers preview, `workers.dev`, and future custom-domain deployments identify themselves without hardcoded hostnames.

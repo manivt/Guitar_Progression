@@ -25,6 +25,7 @@ Tests `extractYouTubeVideoId()`, `isValidYouTubeVideoId()`, `getThumbnailUrl()`,
 - Arbitrary query parameter permutations (e.g. `?feature=shared&v=ID&t=30s`).
 - Rejection of invalid links, empty strings, malformed IDs (< 11 or > 11 chars), and foreign domains.
 - Thumbnail quality selectors (`maxres`, `hq`, `mq`, `default`).
+- Standard embed URL generation with optional, safely encoded runtime origin.
 
 ### 3. Server-Side Validation (`tests/validation.test.ts` — 31 Tests)
 Tests `validatePerformanceInput()` and `validatePerformanceUpdateInput()`:

@@ -76,8 +76,12 @@ export function getThumbnailUrls(videoId: string): { maxres: string; hq: string;
   };
 }
 
-export function getEmbedUrl(videoId: string): string {
-  return `https://www.youtube.com/embed/${videoId}`;
+export function getEmbedUrl(videoId: string, origin?: string): string {
+  const url = new URL(`https://www.youtube.com/embed/${videoId}`);
+  if (origin) {
+    url.searchParams.set('origin', origin);
+  }
+  return url.toString();
 }
 
 export function getWatchUrl(videoId: string): string {

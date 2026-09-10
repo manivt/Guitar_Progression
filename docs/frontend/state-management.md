@@ -43,6 +43,8 @@ The application adopts a lightweight, resilient state architecture utilizing Rea
   A `keydown` listener intercepts `Tab` and `Shift+Tab` cycles, locking focus within modal elements (`close` button, iframe, external watch link).
 - **Body Scroll Locking:**
   Toggles `document.body.style.overflow = 'hidden'` when open and cleans up on unmount.
+- **YouTube Embed Identity:**
+  Builds the embed URL at render time with `window.location.origin` and uses `strict-origin-when-cross-origin` on the iframe. This supplies the HTTP Referer/origin identification required by YouTube while keeping deployment hostnames out of source code.
 
 ### 5. Toast Notification System (`src/components/Toast.tsx`)
 - **`ToastContext`:**

@@ -93,6 +93,8 @@ describe('YouTube URL parsing', () => {
   describe('getEmbedUrl', () => {
     it('returns correct embed URL', () => {
       expect(getEmbedUrl('abc123XYZ01')).toBe('https://www.youtube.com/embed/abc123XYZ01');
+      expect(getEmbedUrl('abc123XYZ01', 'https://guitar.example.com'))
+        .toBe('https://www.youtube.com/embed/abc123XYZ01?origin=https%3A%2F%2Fguitar.example.com');
     });
   });
 

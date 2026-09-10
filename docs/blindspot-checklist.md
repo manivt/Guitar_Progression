@@ -24,3 +24,10 @@ Use this checklist during maintenance or before major releases.
 - [ ] Admin mutations are strictly under `/api/admin/performances`.
 - [ ] Unhandled `/api/*` paths return 404 JSON, never falling through to static asset serving.
 - [ ] Cloudflare Access protects `/admin*` and `/api/admin/*` in production.
+
+## 5. YouTube Embed Boundary
+- [ ] `VideoModal` uses the standard `https://www.youtube.com/embed/{VIDEO_ID}` URL.
+- [ ] The iframe uses `referrerPolicy="strict-origin-when-cross-origin"`; it must not use `no-referrer`.
+- [ ] The `origin` player parameter is derived from `window.location.origin`, not a hardcoded deployment hostname.
+- [ ] `allowFullScreen` and the iframe permission allowlist remain present.
+- [ ] No global Referrer-Policy, CSP, or iframe sandbox suppresses YouTube's required embedding-site identification.
