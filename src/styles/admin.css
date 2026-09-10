@@ -4,6 +4,12 @@
   gap: var(--space-4);
 }
 
+.admin-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--space-4);
+}
+
 .admin-form-header {
   margin-bottom: var(--space-2);
 }

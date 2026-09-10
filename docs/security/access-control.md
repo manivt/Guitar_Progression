@@ -33,6 +33,10 @@ Cloudflare Access Protected (Login Required)
    - **Rule Type:** `Emails` or `Email domain` (e.g. parent family email addresses).
 4. Select identity providers (One-time PIN via email, Google Workspace, GitHub, etc.).
 
+## Administrator Logout
+
+The admin page provides a **Log out** button that requests `/cdn-cgi/access/logout` without following Cloudflare's default redirect back to the protected application, then navigates to the public homepage. If the background request fails, the browser falls back to direct navigation to the logout endpoint. The URL is relative so it continues to work if the Worker hostname changes or a custom domain is added.
+
 ## Security Benefits
 - **Zero Credentials in Code:** No authentication passwords or secret signing keys exist within the Worker codebase.
 - **DDoS and Brute-Force Defense:** Unauthenticated requests never reach the Worker CPU; Cloudflare edge blocks them with an Access login challenge.

@@ -19,6 +19,7 @@ App (with ToastProvider & BrowserRouter)
 │   │
 │   ├── Route "/admin" -> AdminPage
 │   │   ├── Header (shared layout, with archive link)
+│   │   ├── Cloudflare Access logout link
 │   │   ├── PerformanceForm (Add / Edit form with instant YouTube preview)
 │   │   ├── Existing Performances List
 │   │   │   ├── Edit button
@@ -37,6 +38,10 @@ App (with ToastProvider & BrowserRouter)
 - Provides an accessible theme toggle and contextual settings or archive link with labels and native tooltips.
 - Uses the same full-width structure, title alignment, and responsive gutters on the archive and admin pages.
 - Uses a normal document navigation for `/admin`, ensuring Cloudflare Access can intercept the request before the admin UI loads.
+
+### Admin Access Logout
+- The admin toolbar requests the relative Cloudflare Access endpoint `/cdn-cgi/access/logout` without following its default login redirect, then returns the browser to the public homepage.
+- If that background request is unavailable, it falls back to direct navigation to Cloudflare's logout endpoint so ending the session takes priority.
 
 ### `ThemeToggle`
 - Defaults to dark mode for first-time visitors.

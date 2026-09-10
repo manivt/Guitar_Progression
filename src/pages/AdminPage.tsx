@@ -14,6 +14,7 @@ export function AdminPage() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
 
   const loadPerformances = async () => {
     try {
@@ -66,6 +67,23 @@ export function AdminPage() {
     setDeletingId(null);
   };
 
+  const handleAccessLogout = async () => {
+    setLoggingOut(true);
+
+    try {
+      await fetch('/cdn-cgi/access/logout', {
+        credentials: 'include',
+        redirect: 'manual',
+        cache: 'no-store'
+      });
+      window.location.replace('/');
+    } catch {
+      // Preserve logout reliability if a browser cannot perform the manual
+      // redirect request. Cloudflare will handle the full-page navigation.
+      window.location.assign('/cdn-cgi/access/logout');
+    }
+  };
+
   const currentPerformance = performances.find(p => p.id === editingId) ?? undefined;
 
   return (
@@ -78,6 +96,17 @@ export function AdminPage() {
 
       <main>
         <div className="container">
+          <div className="admin-toolbar">
+            <button
+              type="button"
+              className="btn btn-secondary btn-sm"
+              aria-label="Log out of administrator access"
+              onClick={() => void handleAccessLogout()}
+              disabled={loggingOut}
+            >
+              {loggingOut ? 'Logging out…' : 'Log out'}
+            </button>
+          </div>
           <div className="admin-container">
             <section className="admin-form-section" aria-labelledby="form-heading">
               <PerformanceForm
