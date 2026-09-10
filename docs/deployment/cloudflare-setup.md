@@ -70,11 +70,27 @@ This command automatically executes:
 ## Step 5: Configure Cloudflare Access
 
 To protect the admin area in production:
-1. Go to **Cloudflare Zero Trust Dashboard** > **Access** > **Applications**.
-2. Add an application:
+1. Create a Zero Trust organization using the **Zero Trust Free** plan.
+2. Go to **Integrations > Identity providers**, add **One-time PIN**, and save it.
+3. Go to **Access controls > Applications > Access applications**.
+4. Add one application:
    - **Type:** Self-hosted
    - **Application Name:** Guitar Archive Admin
-   - **Path:** `/admin*` and `/api/admin/*`
-3. Configure an Access Policy:
+   - **Subdomain:** `guitar-archive`
+   - **Domain:** `guitar-progression.workers.dev`
+   - **Path 1:** `/admin*`
+   - **Path 2:** `/api/admin/*`
+5. Configure an Access Policy inside that application:
    - **Action:** Allow
-   - **Rule:** Include Emails > Add your approved family/admin email addresses.
+   - **Rule:** Include Emails > Add only approved family/admin email addresses.
+   - **Login method:** One-time PIN
+6. Confirm `/` and `/api/performances*` are not included in the protected paths.
+
+### Verify Access
+
+1. In a private browser, confirm `/` opens without authentication.
+2. Visit `/admin` and complete the email PIN challenge.
+3. Confirm add, edit, and delete work after authentication.
+4. Select **Log out** in the admin toolbar. The application requests `/cdn-cgi/access/logout` and returns to `/`.
+5. Revisit `/admin` and confirm Access requests authentication again. Cloudflare token revocation may take approximately 20–30 seconds to propagate.
+6. Send an unauthenticated request to `/api/admin/performances`; it must receive an Access redirect or denial rather than reaching the Worker mutation handler.

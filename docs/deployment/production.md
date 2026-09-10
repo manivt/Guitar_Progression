@@ -26,6 +26,8 @@ npm run deploy
 ### 2. Verify Edge Functionality
 - Visit `https://<your-subdomain>.workers.dev` to verify archive rendering.
 - Verify that attempting to access `/admin` redirects to Cloudflare Access login.
+- Authenticate with One-time PIN, test add/edit/delete, then use the settings-page Log out button and confirm the browser returns to `/`.
+- After logout propagation, confirm `/admin` requires authentication again and an unauthenticated `/api/admin/*` request receives an Access challenge or denial.
 - Confirm video playback opens properly in `VideoModal` without console errors.
 
 ### YouTube Error 153 Troubleshooting

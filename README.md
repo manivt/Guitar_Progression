@@ -10,6 +10,8 @@ A polished, production-ready web application for maintaining a chronological arc
 - **Video Playback** — Click thumbnails to watch in a polished modal
 - **Age Calculation** — Automatically calculates child's age at each performance
 - **Responsive Design** — Works beautifully on mobile, tablet, and desktop
+- **Dark/Light Themes** — Dark mode by default with a persistent theme toggle
+- **Cloudflare Access Logout** — Administrators can end their Access session directly from the settings page
 - **Privacy-First** — No personal data in source code; all secrets via environment variables
 
 ## Tech Stack
@@ -84,6 +86,20 @@ Visit `http://localhost:5173` for the archive and `http://localhost:5173/admin` 
    ```bash
    npm run deploy
    ```
+
+7. **Protect the admin surface with Cloudflare Access:**
+   - Choose the **Zero Trust Free** plan.
+   - Enable **One-time PIN** under **Integrations → Identity providers**.
+   - Create one **Self-hosted** Access application named `Guitar Archive Admin`.
+   - Add these two application paths using the same hostname:
+     - `guitar-archive.guitar-progression.workers.dev/admin*`
+     - `guitar-archive.guitar-progression.workers.dev/api/admin/*`
+   - Add an **Allow** policy whose **Include → Emails** value is the administrator's exact email address.
+   - Do not protect the entire Worker: `/` and `/api/performances*` must remain public.
+
+### Cloudflare Access Session Behavior
+
+After completing the email PIN challenge, the administrator remains signed in for the Access application's configured session duration. The settings page includes a **Log out** button that calls Cloudflare's `/cdn-cgi/access/logout` endpoint and returns to the public homepage. A private-browser request to an admin API without an Access cookie should receive an Access redirect or denial, never reach the mutation handler.
 
 ## Documentation
 
@@ -172,7 +188,8 @@ Comprehensive technical documentation is available in the [`docs/`](docs/) direc
 - **Secrets excluded from git** — `.dev.vars`, `.env*` in `.gitignore`
 - **Server-side validation** — all mutations validated on Worker
 - **Parameterized SQL** — no SQL injection risk
-- **Cloudflare Access compatible** — protect `/admin*` and `/api/admin/*` routes
+- **Cloudflare Access enforced** — `/admin*` and `/api/admin/*` are protected while the public archive remains open
+- **Immediate administrator logout** — the settings page clears the Cloudflare Access session without waiting for expiration
 - **No logging of sensitive data** — only performance IDs in logs
 
 ## Backup
@@ -198,6 +215,9 @@ Before deploying:
 - [ ] D1 production database configured
 - [ ] Cloudflare Access protects `/admin*`
 - [ ] Cloudflare Access protects `/api/admin/*`
+- [ ] One-time PIN is enabled and the Allow policy contains only approved email addresses
+- [ ] The public homepage works without authentication
+- [ ] The settings-page Log out button returns to the public homepage and `/admin` requires authentication again
 - [ ] Production environment variables configured
 - [ ] Mobile layout verified
 - [ ] Delete operation tested

@@ -16,6 +16,7 @@
 ├── src/
 │   ├── components/
 │   │   ├── Header.tsx
+│   │   ├── ThemeToggle.tsx
 │   │   ├── PerformanceCard.tsx
 │   │   ├── PerformanceGrid.tsx
 │   │   ├── YearSection.tsx
@@ -134,11 +135,13 @@ CREATE INDEX idx_performances_date ON performances(performance_date DESC);
 
 5. **Cloudflare Access**
    - Protect `/admin*` and `/api/admin/*`
+   - Allow only approved email addresses through One-time PIN
+   - Provide an administrator logout control that returns to the public archive
    - Local development works without Access
 
 ## Visual Design Approach
 
-**Theme:** Refined light theme, warm off-white background, charcoal text, muted warm gray secondary, restrained music-inspired accent
+**Theme:** Dark mode by default with warm charcoal surfaces and a restrained gold accent; a persistent toggle provides an optional light theme.
 
 **Typography:** System font stack, clear hierarchy for titles, song names, metadata
 

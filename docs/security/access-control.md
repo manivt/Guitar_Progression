@@ -16,7 +16,7 @@ Public Internet
 
 Cloudflare Access Protected (Login Required)
   │
-  ├── GET /admin (Admin SPA page)
+  ├── GET /admin* (Admin SPA page and nested paths)
   ├── POST /api/admin/performances (Create new performance)
   ├── PUT /api/admin/performances/:id (Update performance)
   └── DELETE /api/admin/performances/:id (Delete performance)
@@ -24,14 +24,15 @@ Cloudflare Access Protected (Login Required)
 
 ## Cloudflare Zero Trust Policy Configuration
 
-1. In the Cloudflare Zero Trust dashboard, navigate to **Access > Applications**.
+1. In the Cloudflare Zero Trust dashboard, navigate to **Access controls > Applications > Access applications**.
 2. Add an application of type **Self-hosted**:
    - **Application Name:** `Guitar Journey Admin`
-   - **Domain:** `your-domain.com/admin*` and `your-domain.com/api/admin/*`
+   - **Domain:** `guitar-archive.guitar-progression.workers.dev`
+   - **Paths:** `/admin*` and `/api/admin/*`
 3. Configure an Access Policy:
    - **Policy Action:** `Allow`
    - **Rule Type:** `Emails` or `Email domain` (e.g. parent family email addresses).
-4. Select identity providers (One-time PIN via email, Google Workspace, GitHub, etc.).
+4. Enable **One-time PIN** under **Integrations > Identity providers** and select it as the login method.
 
 ## Administrator Logout
 

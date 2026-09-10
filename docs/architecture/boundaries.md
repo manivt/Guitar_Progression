@@ -53,7 +53,7 @@ This document defines the system boundaries, trust zones, and security responsib
 - **Static Assets (`/dist/client`):** Compiled JS, CSS, HTML served via Cloudflare edge cache.
 
 ### 2. Admin Authentication Boundary (Cloudflare Access)
-- **Protected Paths:** `/admin` and `/api/admin/*`.
+- **Protected Paths:** `/admin*` and `/api/admin/*`.
 - **Enforcement:** Cloudflare Access blocks unauthenticated traffic at the Cloudflare edge before it ever reaches the application.
 - **Local Development:** Local environment does not require Access credentials, allowing rapid testing with `.dev.vars`.
 

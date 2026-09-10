@@ -24,6 +24,8 @@ Use this checklist during maintenance or before major releases.
 - [ ] Admin mutations are strictly under `/api/admin/performances`.
 - [ ] Unhandled `/api/*` paths return 404 JSON, never falling through to static asset serving.
 - [ ] Cloudflare Access protects `/admin*` and `/api/admin/*` in production.
+- [ ] Cloudflare Access does not protect `/` or `/api/performances*`.
+- [ ] The admin logout control clears the Access session and returns to the public homepage.
 
 ## 5. YouTube Embed Boundary
 - [ ] `VideoModal` uses the standard `https://www.youtube.com/embed/{VIDEO_ID}` URL.

@@ -39,8 +39,10 @@ export function App() {
 ## Client-Side Navigation Rules
 
 1. **SPA Links (`Link`):**
-   All internal navigation (e.g. between `/admin` and `/`, or from `NotFoundPage` back to `/`) uses React Router's `<Link to="...">` component instead of native anchor `<a href="...">` tags. This prevents full-page browser reloads and re-initialization of JavaScript state.
-2. **External Links (`<a>`):**
+   Ordinary public navigation, such as the `NotFoundPage` link back to `/`, may use React Router's `<Link to="...">` component.
+2. **Security-boundary navigation (`<a>`):**
+   The settings link uses a native `<a href="/admin">` so every visit makes a document request that Cloudflare Access can challenge. Cloudflare logout is also a full Access request before the browser returns to `/`.
+3. **External Links (`<a>`):**
    External navigation (such as "Open on YouTube" links in `VideoModal`) uses standard `<a target="_blank" rel="noopener noreferrer">` tags.
 
 ## Cloudflare Worker Route Integration
