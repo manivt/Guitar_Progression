@@ -7,8 +7,12 @@ interface PerformanceCardProps {
   onClick: () => void;
 }
 
+// YouTube can initially cache a processing placeholder at the permanent
+// thumbnail URL. A new key per page load fetches the current published image.
+const thumbnailCacheKey = Date.now().toString();
+
 export function PerformanceCard({ performance, onClick }: PerformanceCardProps) {
-  const thumbnails = getThumbnailUrls(performance.youtubeVideoId);
+  const thumbnails = getThumbnailUrls(performance.youtubeVideoId, thumbnailCacheKey);
   const displayDate = formatDisplayDate(performance.performanceDate);
   const ageText = `Age ${performance.age.years} year${performance.age.years !== 1 ? 's' : ''}${performance.age.months > 0 ? `, ${performance.age.months} month${performance.age.months !== 1 ? 's' : ''}` : ''}`;
 
