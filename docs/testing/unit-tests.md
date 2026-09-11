@@ -2,7 +2,7 @@
 
 ## Overview
 
-The repository includes 73 unit tests distributed across three test files under `tests/`. All tests run using Vitest.
+The repository includes 74 unit tests distributed across three test files under `tests/`. All tests run using Vitest.
 
 ## Test Suites
 
@@ -16,7 +16,7 @@ Tests `calculateAge()` and `formatAge()` across critical calendar boundaries:
 - Invalid string date fallbacks (`{ years: 0, months: 0 }`).
 - Singular vs plural formatting (`1 year`, `2 years`, `1 month`, `6 months`).
 
-### 2. YouTube Parsing (`tests/youtube.test.ts` — 22 Tests)
+### 2. YouTube Parsing (`tests/youtube.test.ts` — 23 Tests)
 Tests `extractYouTubeVideoId()`, `isValidYouTubeVideoId()`, `getThumbnailUrl()`, `getEmbedUrl()`, and `getWatchUrl()`:
 - Standard `youtube.com/watch?v=ID` with and without `www`.
 - Shortened `youtu.be/ID`.
@@ -24,7 +24,7 @@ Tests `extractYouTubeVideoId()`, `isValidYouTubeVideoId()`, `getThumbnailUrl()`,
 - Embeds `youtube.com/embed/ID`.
 - Arbitrary query parameter permutations (e.g. `?feature=shared&v=ID&t=30s`).
 - Rejection of invalid links, empty strings, malformed IDs (< 11 or > 11 chars), and foreign domains.
-- Thumbnail quality selectors (`maxres`, `hq`, `mq`, `default`).
+- Thumbnail selectors (`maxres`, `hq`, generated early frame `hq1`, `mq`, `default`).
 - Standard embed URL generation with optional, safely encoded runtime origin.
 
 ### 3. Server-Side Validation (`tests/validation.test.ts` — 31 Tests)

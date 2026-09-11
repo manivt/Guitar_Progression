@@ -205,14 +205,14 @@ CREATE INDEX idx_performances_date ON performances(performance_date DESC);
 - Header with site title
 - Intro section
 - Year sections
-- Performance cards with thumbnails
+- Performance cards using YouTube-generated early-frame thumbnails (`hq1.jpg`)
 - Video modal
 - Age/date metadata display
 
 ### Stage 7: Admin Create
 - Performance form
 - YouTube URL validation & preview
-- Thumbnail preview
+- Generated early-frame thumbnail preview matching the archive cards
 - Server-side validation
 - D1 insert
 - Success/error handling

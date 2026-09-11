@@ -19,6 +19,8 @@ GET / → Worker.fetch()
   → HomePage receives Performance[]
   → Group by year (getYear(performanceDate))
   → Render YearSection → PerformanceGrid → PerformanceCard
+    → Derive https://img.youtube.com/vi/{VIDEO_ID}/hq1.jpg
+    → Render YouTube's generated early-frame thumbnail
 ```
 
 ### 2. Video Playback
@@ -62,7 +64,7 @@ AdminPage: User fills form, clicks "Add Performance"
 AdminPage: User clicks "Edit" on list item
   → setEditingId(performance.id)
   → PerformanceForm receives initialData=performance
-  → Form pre-populates, youtubePreview shows thumbnail
+  → Form pre-populates, youtubePreview shows the generated early-frame thumbnail
   → User modifies, clicks "Save Changes"
   → PUT /api/admin/performances/:id
     → handleUpdatePerformance()
@@ -156,5 +158,5 @@ Any Worker error → console.error() with performanceId only
 
 - **Static assets**: Cached by Cloudflare CDN (immutable hashes in filenames)
 - **API responses**: No caching headers (dynamic data)
-- **YouTube thumbnails**: Cached by browser (standard image caching)
+- **YouTube generated-frame thumbnails**: `hq1.jpg` images are derived from video IDs and cached by the browser using standard image caching
 - **YouTube iframes**: Loaded from youtube.com on demand

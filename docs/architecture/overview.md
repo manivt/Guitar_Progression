@@ -65,7 +65,7 @@ This allows a single Access policy: `/admin*` and `/api/admin/*`
 ### 3. YouTube as Video CDN
 - Videos uploaded manually to YouTube as Unlisted
 - Only 11-character video ID stored in D1
-- Thumbnails generated on-demand from video ID
+- Cards and form previews derive YouTube's generated early-frame image (`hq1.jpg`) on demand from the video ID; they do not depend on custom-thumbnail or max-resolution availability
 - No video storage costs, no transcoding, no bandwidth concerns
 
 ### 4. Date-Only Semantics

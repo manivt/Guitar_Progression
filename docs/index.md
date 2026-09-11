@@ -30,7 +30,7 @@ docs/
 │   └── logging.md               # Privacy-preserving logging practices
 ├── testing/
 │   ├── test-strategy.md         # Quality assurance & testing pyramid
-│   ├── unit-tests.md            # Vitest unit test breakdown (73 tests)
+│   ├── unit-tests.md            # Vitest unit test breakdown (74 tests)
 │   └── integration-tests.md     # Miniflare D1 & API integration tests
 ├── deployment/
 │   ├── local-dev.md             # Local development setup & scripts
@@ -69,7 +69,7 @@ docs/
 
 ### Testing & Quality Assurance
 - [Test Strategy](testing/test-strategy.md) — Testing approach, test pyramid, and coverage goals.
-- [Unit Tests](testing/unit-tests.md) — Breakdown of the 73 unit tests across age math, YouTube parsing, and validation.
+- [Unit Tests](testing/unit-tests.md) — Breakdown of the 74 unit tests across age math, YouTube parsing, and validation.
 - [Integration Tests](testing/integration-tests.md) — Miniflare D1 testing and manual API endpoint verification.
 
 ### Operations & Deployment
@@ -89,3 +89,4 @@ docs/
 6. **Dynamic Age Derivation:** Child's age is calculated at runtime from `CHILD_BIRTH_DATE` and `performance_date`.
 7. **Date-Only Semantics:** All dates are stored as `YYYY-MM-DD` and rendered in local time to avoid UTC day shifts.
 8. **YouTube Normalization:** Only 11-character video IDs are stored; no external iframes or arbitrary HTML.
+9. **Deterministic Thumbnail Source:** Cards and form previews derive YouTube's generated early-frame URL (`hq1.jpg`) from the stored video ID instead of depending on custom-thumbnail publication.

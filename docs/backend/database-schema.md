@@ -49,5 +49,5 @@ CREATE INDEX idx_performances_date ON performances(performance_date DESC);
 
 ## Important Architectural Notes
 - **Age is not stored in the database:** The child's age is derived dynamically in memory when records are read, combining `CHILD_BIRTH_DATE` and `performance_date`.
-- **Thumbnails are not stored:** Only the 11-character YouTube video ID is retained. Thumbnail URLs are generated client-side from `img.youtube.com`.
+- **Thumbnails are not stored:** Only the 11-character YouTube video ID is retained. The client derives the high-quality generated early-frame URL (`https://img.youtube.com/vi/{VIDEO_ID}/hq1.jpg`) for archive cards and form previews.
 - **Query Optimization:** An index on `performance_date DESC` guarantees fast, chronological scans without sorting overhead.

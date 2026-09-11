@@ -6,6 +6,7 @@ A polished, production-ready web application for maintaining a chronological arc
 
 - **Chronological Archive** — Performances displayed in reverse chronological order, grouped by year
 - **YouTube Integration** — Videos hosted on YouTube (Unlisted), only metadata stored in Cloudflare D1
+- **Consistent Video Thumbnails** — Archive cards use YouTube's generated early frame instead of relying on custom-thumbnail processing
 - **Admin Interface** — Add, edit, and delete performances at `/admin` (protected by Cloudflare Access)
 - **Video Playback** — Click thumbnails to watch in a polished modal
 - **Age Calculation** — Automatically calculates child's age at each performance
@@ -173,6 +174,8 @@ Comprehensive technical documentation is available in the [`docs/`](docs/) direc
    - Artist, Instrument, Type, Location, Notes (optional)
 6. Click **Add Performance**
 7. Performance appears immediately in the archive
+
+Archive cards and the admin preview use YouTube's high-quality generated early frame (`hq1.jpg`). Custom thumbnails selected in YouTube Studio are intentionally not used, because their availability can lag behind the video or vary by resolution.
 
 ## YouTube URL Formats Supported
 
