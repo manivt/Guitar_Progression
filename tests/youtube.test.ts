@@ -89,9 +89,9 @@ describe('YouTube URL parsing', () => {
       expect(getThumbnailUrl('abc123XYZ01', 'default')).toBe('https://img.youtube.com/vi/abc123XYZ01/default.jpg');
     });
 
-    it('adds an encoded cache key when provided', () => {
-      expect(getThumbnailUrl('abc123XYZ01', 'hq', 'page load 1'))
-        .toBe('https://img.youtube.com/vi/abc123XYZ01/hqdefault.jpg?refresh=page%20load%201');
+    it('returns the high-quality generated early-frame URL', () => {
+      expect(getThumbnailUrl('abc123XYZ01', 'hq1'))
+        .toBe('https://img.youtube.com/vi/abc123XYZ01/hq1.jpg');
     });
   });
 

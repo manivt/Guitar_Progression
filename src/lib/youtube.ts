@@ -54,8 +54,7 @@ export function extractYouTubeVideoId(url: string): string | null {
 
 export function getThumbnailUrl(
   videoId: string,
-  quality: 'maxres' | 'hq' | 'mq' | 'default' = 'hq',
-  cacheKey?: string
+  quality: 'maxres' | 'hq' | 'hq1' | 'mq' | 'default' = 'hq'
 ): string {
   const base = `https://img.youtube.com/vi/${videoId}`;
   let url: string;
@@ -67,6 +66,9 @@ export function getThumbnailUrl(
     case 'hq':
       url = `${base}/hqdefault.jpg`;
       break;
+    case 'hq1':
+      url = `${base}/hq1.jpg`;
+      break;
     case 'mq':
       url = `${base}/mqdefault.jpg`;
       break;
@@ -76,18 +78,16 @@ export function getThumbnailUrl(
       break;
   }
 
-  return cacheKey ? `${url}?refresh=${encodeURIComponent(cacheKey)}` : url;
+  return url;
 }
 
-export function getThumbnailUrls(
-  videoId: string,
-  cacheKey?: string
-): { maxres: string; hq: string; mq: string; default: string } {
+export function getThumbnailUrls(videoId: string): { maxres: string; hq: string; firstFrame: string; mq: string; default: string } {
   return {
-    maxres: getThumbnailUrl(videoId, 'maxres', cacheKey),
-    hq: getThumbnailUrl(videoId, 'hq', cacheKey),
-    mq: getThumbnailUrl(videoId, 'mq', cacheKey),
-    default: getThumbnailUrl(videoId, 'default', cacheKey)
+    maxres: getThumbnailUrl(videoId, 'maxres'),
+    hq: getThumbnailUrl(videoId, 'hq'),
+    firstFrame: getThumbnailUrl(videoId, 'hq1'),
+    mq: getThumbnailUrl(videoId, 'mq'),
+    default: getThumbnailUrl(videoId, 'default')
   };
 }
 

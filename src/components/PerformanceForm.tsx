@@ -243,7 +243,7 @@ export function PerformanceForm({ initialData, onSuccess, onCancel }: Performanc
             <span className="youtube-preview-label">Thumbnail Preview</span>
             <div className="youtube-preview-thumbnail">
               <img
-                src={getThumbnailUrls(youtubePreview).hq}
+                src={getThumbnailUrls(youtubePreview).firstFrame}
                 alt="YouTube thumbnail preview"
                 loading="lazy"
               />

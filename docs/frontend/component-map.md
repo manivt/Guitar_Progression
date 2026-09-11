@@ -49,7 +49,7 @@ App (with ToastProvider & BrowserRouter)
 
 ### `PerformanceCard`
 - Uses an `<article>` container wrapping a semantic `<button className="card-button">`.
-- Renders responsive `srcset` thumbnails (`maxres`, `hq`, `mq`), adds a page-load cache key so newly published thumbnails replace YouTube processing placeholders, and falls back to `hq` when YouTube has not generated a max-resolution image.
+- Uses YouTube's high-quality generated early frame (`hq1`) for every card instead of depending on custom-thumbnail publication or max-resolution availability.
 - Formats dates using `formatDisplayDate` in local time to avoid UTC day-shift bugs.
 
 ### `VideoModal`
@@ -63,5 +63,5 @@ App (with ToastProvider & BrowserRouter)
 
 ### `PerformanceForm`
 - Validates YouTube URLs client-side without network calls.
-- Shows live thumbnail preview upon entering a valid URL.
+- Shows the same generated early-frame preview used by archive cards upon entering a valid URL.
 - Handles both creation and updates seamlessly.

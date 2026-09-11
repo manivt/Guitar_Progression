@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import type { Performance } from '@shared/performance';
 import { getThumbnailUrls } from '@lib/youtube';
 import { formatDisplayDate } from '@lib/dates';
@@ -8,13 +7,8 @@ interface PerformanceCardProps {
   onClick: () => void;
 }
 
-// YouTube can initially cache a processing placeholder at the permanent
-// thumbnail URL. A new key per page load fetches the current published image.
-const thumbnailCacheKey = Date.now().toString();
-
 export function PerformanceCard({ performance, onClick }: PerformanceCardProps) {
-  const [useHqFallback, setUseHqFallback] = useState(false);
-  const thumbnails = getThumbnailUrls(performance.youtubeVideoId, thumbnailCacheKey);
+  const thumbnails = getThumbnailUrls(performance.youtubeVideoId);
   const displayDate = formatDisplayDate(performance.performanceDate);
   const ageText = `Age ${performance.age.years} year${performance.age.years !== 1 ? 's' : ''}${performance.age.months > 0 ? `, ${performance.age.months} month${performance.age.months !== 1 ? 's' : ''}` : ''}`;
 
@@ -28,21 +22,10 @@ export function PerformanceCard({ performance, onClick }: PerformanceCardProps) 
       >
         <div className="thumbnail-wrapper">
           <img
-            key={useHqFallback ? 'hq' : 'responsive'}
             className="thumbnail"
-            src={thumbnails.hq}
-            {...(!useHqFallback ? {
-              srcSet: `${thumbnails.maxres} 1280w, ${thumbnails.hq} 480w, ${thumbnails.mq} 320w`,
-              sizes: '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'
-            } : {})}
+            src={thumbnails.firstFrame}
             alt={`Thumbnail for ${performance.song} by ${performance.artist || 'Unknown Artist'}`}
             loading="lazy"
-            onError={() => {
-              // Not every YouTube video has a max-resolution thumbnail. If
-              // srcSet selected one that does not exist, render a fresh image
-              // using only the reliable HQ source.
-              if (!useHqFallback) setUseHqFallback(true);
-            }}
           />
           <div className="play-indicator" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="currentColor">
