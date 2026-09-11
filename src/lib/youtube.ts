@@ -76,7 +76,7 @@ export function getThumbnailUrl(
       break;
   }
 
-  return cacheKey ? `${url}?v=${encodeURIComponent(cacheKey)}` : url;
+  return cacheKey ? `${url}?refresh=${encodeURIComponent(cacheKey)}` : url;
 }
 
 export function getThumbnailUrls(
