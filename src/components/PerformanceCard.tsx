@@ -28,6 +28,17 @@ export function PerformanceCard({ performance, onClick }: PerformanceCardProps) 
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             alt={`Thumbnail for ${performance.song} by ${performance.artist || 'Unknown Artist'}`}
             loading="lazy"
+            onError={event => {
+              const image = event.currentTarget;
+              if (image.dataset.fallbackApplied === 'true') return;
+
+              // Not every YouTube video has a max-resolution thumbnail. If
+              // srcSet selected one that does not exist, retry with the HQ
+              // thumbnail, which YouTube provides for processed videos.
+              image.dataset.fallbackApplied = 'true';
+              image.removeAttribute('srcset');
+              image.src = thumbnails.hq;
+            }}
           />
           <div className="play-indicator" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="currentColor">

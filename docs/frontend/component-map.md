@@ -49,7 +49,7 @@ App (with ToastProvider & BrowserRouter)
 
 ### `PerformanceCard`
 - Uses an `<article>` container wrapping a semantic `<button className="card-button">`.
-- Renders responsive `srcset` thumbnails (`maxres`, `hq`, `mq`).
+- Renders responsive `srcset` thumbnails (`maxres`, `hq`, `mq`) and falls back to `hq` when YouTube has not generated a max-resolution image.
 - Formats dates using `formatDisplayDate` in local time to avoid UTC day-shift bugs.
 
 ### `VideoModal`

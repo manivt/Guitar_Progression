@@ -14,6 +14,7 @@ export function AdminPage() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [deleteInProgress, setDeleteInProgress] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
 
   const loadPerformances = async () => {
@@ -47,18 +48,20 @@ export function AdminPage() {
   };
 
   const confirmDelete = async () => {
-    if (!deletingId) return;
-    
-    setDeleteConfirmOpen(false);
-    
+    if (deletingId === null || deleteInProgress) return;
+
+    setDeleteInProgress(true);
+
     try {
       await deletePerformance(deletingId);
+      setDeleteConfirmOpen(false);
+      setDeletingId(null);
       success('Performance deleted');
-      loadPerformances();
+      await loadPerformances();
     } catch {
       error('Unable to delete performance');
     } finally {
-      setDeletingId(null);
+      setDeleteInProgress(false);
     }
   };
 
@@ -173,7 +176,7 @@ export function AdminPage() {
         message={`Are you sure you want to delete "${performances.find(p => p.id === deletingId)?.song}"? This action cannot be undone.`}
         confirmText="Delete Performance"
         variant="danger"
-        loading={!!deletingId}
+        loading={deleteInProgress}
       />
     </div>
   );
